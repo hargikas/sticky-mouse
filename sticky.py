@@ -1,7 +1,8 @@
 import threading
 
-import pyautogui
 import keyboard
+import pyautogui
+
 
 class StickyClick(object):
     def __init__(self):
@@ -30,7 +31,7 @@ class StickyClick(object):
             self._child_thread = threading.Thread(target=self._clicking)
             print("Press CTRL+ALT to exit.")
             print("Press ESC to start again.")
-    
+
     def change_speed(self, change):
         clicks_per_sec = 1.0 / pyautogui.PAUSE
 
@@ -41,11 +42,11 @@ class StickyClick(object):
             clicks_per_sec += change
 
         if clicks_per_sec > 0:
-            tmp = 1.0 / clicks_per_sec 
+            tmp = 1.0 / clicks_per_sec
             if change == 0 or tmp <= 0:
                 tmp = self._default_pause
             pyautogui.PAUSE = tmp
-        
+
         clicks_per_sec = 1.0 / pyautogui.PAUSE
         print("Current clicks per second:", clicks_per_sec)
 
