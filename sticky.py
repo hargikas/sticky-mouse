@@ -1,3 +1,4 @@
+"""A script that simulates multiple clicking in the position of the mouse"""
 import threading
 
 import keyboard
@@ -5,6 +6,7 @@ import pyautogui
 
 
 class StickyClick(object):
+    """The base class that simulated the clicking in a separate thread"""
     def __init__(self):
         self._esc_toggle = False
         self._position = (0, 0)
@@ -18,7 +20,8 @@ class StickyClick(object):
             i += 1
         print("Clicked %d times" % (i))
 
-    def esc_pressed(self):
+    def toggle_clicking(self):
+        """Toggles On/Off the automatic clicking"""
         self._position = pyautogui.position()
         self._esc_toggle = not self._esc_toggle
         if self._esc_toggle:
@@ -33,6 +36,7 @@ class StickyClick(object):
             print("Press ESC to start again.")
 
     def change_speed(self, change):
+        """Changes the speed of the clicking"""
         clicks_per_sec = 1.0 / pyautogui.PAUSE
 
         if (clicks_per_sec < 1.0) or ((clicks_per_sec == 1.0) and (change < 0)):
@@ -51,8 +55,9 @@ class StickyClick(object):
         print("Current clicks per second:", clicks_per_sec)
 
     def start(self):
+        """Register hotkeys and waits for exit"""
         # The main hot_key
-        keyboard.add_hotkey('esc', self.esc_pressed)
+        keyboard.add_hotkey('esc', self.toggle_clicking)
         # Hotkeys for changing speed
         keyboard.add_hotkey('right', self.change_speed, args=(-1,))
         keyboard.add_hotkey('left', self.change_speed, args=(1,))
@@ -66,6 +71,7 @@ class StickyClick(object):
 
 
 def main():
+    """The main function"""
     obj = StickyClick()
     obj.start()
 
