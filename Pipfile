@@ -13,3 +13,5 @@ pyautogui = "*"
 
 [dev-packages]
 
+pylint = "*"
+"autopep8" = "*"
