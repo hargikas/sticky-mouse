@@ -7,16 +7,20 @@ import pyautogui
 
 class StickyClick(object):
     """The base class that simulated the clicking in a separate thread"""
-    def __init__(self):
+    def __init__(self, register_position):
         self._esc_toggle = False
         self._position = (0, 0)
         self._default_pause = pyautogui.PAUSE
         self._child_thread = threading.Thread(target=self._clicking)
+        self._save_position = register_position
 
     def _clicking(self):
         i = 0
         while self._esc_toggle:
-            pyautogui.click(x=self._position[0], y=self._position[1])
+            if self._save_position:
+                pyautogui.click(x=self._position[0], y=self._position[1])
+            else:
+                pyautogui.click()
             i += 1
         print("Clicked %d times" % (i))
 
@@ -72,7 +76,7 @@ class StickyClick(object):
 
 def main():
     """The main function"""
-    obj = StickyClick()
+    obj = StickyClick(True)
     obj.start()
 
 
